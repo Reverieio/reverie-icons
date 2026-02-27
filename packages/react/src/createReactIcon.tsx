@@ -62,7 +62,7 @@ function renderLayer(
  * Create a React icon component from a core IconDefinition.
  *
  * @param displayName — Component name (e.g. "FlaskOutline")
- * @param definition  — IconDefinition from @reverie-icons/core
+ * @param definition  — IconDefinition from @reverieio/icons-core
  */
 export function createReactIcon(displayName: string, definition: IconDefinition) {
   const Icon = forwardRef<SVGSVGElement, ReverieIconProps>(
@@ -119,7 +119,7 @@ export function createReactIcon(displayName: string, definition: IconDefinition)
  * Create all 4 variation components for an icon set.
  * Returns { Outline, Solid, Duotone, Bulk } with proper display names.
  */
-export function createReactIconSet(iconSet: import('@reverie-icons/core').IconSet) {
+export function createReactIconSet(iconSet: import('@reverieio/icons-core').IconSet) {
   const name = iconSet.displayName
   return {
     [`${name}Outline`]: createReactIcon(`${name}Outline`, iconSet.outline),

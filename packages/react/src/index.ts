@@ -20,7 +20,7 @@
 import {
   flask, droplet, flower, molecule, scent,
   leaf, beaker, pipette, scale, bottle, sparkle,
-} from '@reverie-icons/core'
+} from '@reverieio/icons-core'
 
 import { createReactIcon } from './createReactIcon'
 
