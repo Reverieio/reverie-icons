@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build all packages
+        run: npm run build
+
+      - name: Typecheck
+        run: npm run typecheck
+        if: matrix.node-version == 22
+
+      - name: Verify dist artifacts
+        run: |
+          echo "=== Core ==="
+          ls -la packages/core/dist/
+          test -f packages/core/dist/index.mjs
+          test -f packages/core/dist/index.cjs
+          test -f packages/core/dist/index.d.ts
+
+          echo "=== React ==="
+          ls -la packages/react/dist/
+          test -f packages/react/dist/index.mjs
+          test -f packages/react/dist/index.cjs
+          test -f packages/react/dist/index.d.ts
+
+          echo "=== Vue ==="
+          ls -la packages/vue/dist/
+          test -f packages/vue/dist/index.mjs
+          test -f packages/vue/dist/index.cjs
+          test -f packages/vue/dist/index.d.ts
+
+          echo "✅ All dist artifacts verified"

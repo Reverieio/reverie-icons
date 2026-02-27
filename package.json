@@ -1,0 +1,33 @@
+{
+  "name": "reverie-icons",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Reverie icon library — monorepo root",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "build:core": "npm run build -w @reverieio/icons-core",
+    "build:react": "npm run build -w @reverieio/icons-react",
+    "build:vue": "npm run build -w @reverieio/icons-vue",
+    "clean": "npm run clean --workspaces",
+    "generate": "node scripts/generate-from-svg.mjs",
+    "lint": "eslint packages/*/src --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit -p packages/core/tsconfig.json && tsc --noEmit -p packages/react/tsconfig.json"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "eslint": "^8.57.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Reverieio/reverie-icons"
+  }
+}

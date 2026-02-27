@@ -1,0 +1,97 @@
+name: Publish to GitHub Packages
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@reverieio'
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build all packages
+        run: npm run build
+
+      - name: Verify dist artifacts
+        run: |
+          test -f packages/core/dist/index.mjs
+          test -f packages/react/dist/index.mjs
+          test -f packages/vue/dist/index.mjs
+          echo "✅ All dist artifacts present"
+
+      # ── Version bump (only for manual dispatch) ────────────────────────
+      - name: Bump versions
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          BUMP=${{ inputs.version_bump }}
+          npm version $BUMP --no-git-tag-version --workspaces
+          NEW_VERSION=$(node -p "require('./packages/core/package.json').version")
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+          git add -A
+          git commit -m "chore: release v${NEW_VERSION}"
+          git tag "v${NEW_VERSION}"
+          git push origin main --tags
+
+      # ── Publish each package ───────────────────────────────────────────
+      - name: Publish @reverieio/icons-core
+        run: npm publish --workspace=packages/core --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish @reverieio/icons-react
+        run: npm publish --workspace=packages/react --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish @reverieio/icons-vue
+        run: npm publish --workspace=packages/vue --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          VERSION=$(node -p "require('./packages/core/package.json').version")
+          echo "### 📦 Published @reverieio/icons v${VERSION}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Package | Version |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "| \`@reverieio/icons-core\` | ${VERSION} |" >> $GITHUB_STEP_SUMMARY
+          echo "| \`@reverieio/icons-react\` | ${VERSION} |" >> $GITHUB_STEP_SUMMARY
+          echo "| \`@reverieio/icons-vue\` | ${VERSION} |" >> $GITHUB_STEP_SUMMARY

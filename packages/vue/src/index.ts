@@ -1,0 +1,189 @@
+/**
+ * @reverie-icons/vue
+ *
+ * Vue 3 adapter for the Reverie icon library.
+ * Consumes @reverie-icons/core data and renders via Vue's h() function.
+ *
+ * This is a scaffold — implement the Vue rendering layer here.
+ * The pattern mirrors @reverie-icons/react.
+ *
+ * @example (target API)
+ *   <script setup>
+ *   import { FlaskOutline, Icon } from '@reverie-icons/vue'
+ *   </script>
+ *
+ *   <template>
+ *     <FlaskOutline :size="24" color="#6A89A7" />
+ *     <Icon name="droplet" variation="duotone" :size="20" />
+ *   </template>
+ */
+
+import { defineComponent, h } from 'vue'
+import type { PropType } from 'vue'
+import type { IconDefinition, IconVariation, IconLayer } from '@reverieio/icons-core'
+import { iconRegistry } from '@reverieio/icons-core'
+
+// ── Rendering logic ─────────────────────────────────────────────────────────
+
+function renderLayer(layer: IconLayer, color: string, secondaryColor: string, strokeWidth: number) {
+  const resolvedColor = layer.colorSource === 'secondary' ? secondaryColor : color
+  const layerProps: Record<string, unknown> = {}
+
+  if (layer.colorMode === 'fill') {
+    layerProps.fill = resolvedColor
+    layerProps.stroke = 'none'
+  } else {
+    layerProps.fill = 'none'
+    layerProps.stroke = resolvedColor
+    layerProps['stroke-width'] = strokeWidth
+    layerProps['stroke-linecap'] = 'round'
+    layerProps['stroke-linejoin'] = 'round'
+  }
+  if (layer.opacity < 1) layerProps.opacity = layer.opacity
+
+  return h('g', {}, layer.elements.map((el) => h(el.tag, { ...el.attrs, ...layerProps })))
+}
+
+// ── Factory ─────────────────────────────────────────────────────────────────
+
+export function createVueIcon(displayName: string, definition: IconDefinition) {
+  return defineComponent({
+    name: displayName,
+    props: {
+      size: { type: Number, default: definition.defaultSize },
+      color: { type: String, default: 'currentColor' },
+      secondaryColor: { type: String, default: undefined },
+      secondaryOpacity: { type: Number, default: undefined },
+      strokeWidth: { type: Number, default: definition.defaultStrokeWidth },
+      title: { type: String, default: undefined },
+    },
+    setup(props) {
+      return () => {
+        const secColor = props.secondaryColor ?? props.color
+        const layers = props.secondaryOpacity != null
+          ? definition.layers.map((l) =>
+              l.colorSource === 'secondary' ? { ...l, opacity: props.secondaryOpacity! } : l
+            )
+          : definition.layers
+
+        return h(
+          'svg',
+          {
+            xmlns: 'http://www.w3.org/2000/svg',
+            width: props.size,
+            height: props.size,
+            viewBox: definition.viewBox,
+            fill: 'none',
+            class: `reverie-icon reverie-icon-${definition.variation}`,
+            style: { flexShrink: 0 },
+            role: props.title ? 'img' : 'presentation',
+            'aria-hidden': props.title ? undefined : true,
+          },
+          [
+            props.title ? h('title', {}, props.title) : null,
+            ...layers.map((layer) => renderLayer(layer, props.color, secColor, props.strokeWidth)),
+          ]
+        )
+      }
+    },
+  })
+}
+
+// ── Dynamic Icon component ──────────────────────────────────────────────────
+
+export const Icon = defineComponent({
+  name: 'ReverieIcon',
+  props: {
+    name: { type: String, required: true },
+    variation: { type: String as PropType<IconVariation>, default: 'outline' },
+    size: { type: Number, default: 24 },
+    color: { type: String, default: 'currentColor' },
+    secondaryColor: { type: String, default: undefined },
+    secondaryOpacity: { type: Number, default: undefined },
+    strokeWidth: { type: Number, default: 1.5 },
+    title: { type: String, default: undefined },
+  },
+  setup(props) {
+    return () => {
+      const iconSet = iconRegistry[props.name]
+      if (!iconSet) return null
+      const def = iconSet[props.variation]
+      const Component = createVueIcon(
+        `${iconSet.displayName}${props.variation.charAt(0).toUpperCase() + props.variation.slice(1)}`,
+        def
+      )
+      return h(Component, {
+        size: props.size,
+        color: props.color,
+        secondaryColor: props.secondaryColor,
+        secondaryOpacity: props.secondaryOpacity,
+        strokeWidth: props.strokeWidth,
+        title: props.title,
+      })
+    }
+  },
+})
+
+// ── Pre-built icon components ───────────────────────────────────────────────
+// (Generate these the same way as the React package — one export per icon per variation)
+
+import { flask, droplet, flower, molecule, scent, leaf, beaker, pipette, scale, bottle, sparkle } from '@reverieio/icons-core'
+
+export const FlaskOutline = createVueIcon('FlaskOutline', flask.outline)
+export const FlaskSolid = createVueIcon('FlaskSolid', flask.solid)
+export const FlaskDuotone = createVueIcon('FlaskDuotone', flask.duotone)
+export const FlaskBulk = createVueIcon('FlaskBulk', flask.bulk)
+
+export const DropletOutline = createVueIcon('DropletOutline', droplet.outline)
+export const DropletSolid = createVueIcon('DropletSolid', droplet.solid)
+export const DropletDuotone = createVueIcon('DropletDuotone', droplet.duotone)
+export const DropletBulk = createVueIcon('DropletBulk', droplet.bulk)
+
+export const FlowerOutline = createVueIcon('FlowerOutline', flower.outline)
+export const FlowerSolid = createVueIcon('FlowerSolid', flower.solid)
+export const FlowerDuotone = createVueIcon('FlowerDuotone', flower.duotone)
+export const FlowerBulk = createVueIcon('FlowerBulk', flower.bulk)
+
+export const MoleculeOutline = createVueIcon('MoleculeOutline', molecule.outline)
+export const MoleculeSolid = createVueIcon('MoleculeSolid', molecule.solid)
+export const MoleculeDuotone = createVueIcon('MoleculeDuotone', molecule.duotone)
+export const MoleculeBulk = createVueIcon('MoleculeBulk', molecule.bulk)
+
+export const ScentOutline = createVueIcon('ScentOutline', scent.outline)
+export const ScentSolid = createVueIcon('ScentSolid', scent.solid)
+export const ScentDuotone = createVueIcon('ScentDuotone', scent.duotone)
+export const ScentBulk = createVueIcon('ScentBulk', scent.bulk)
+
+export const LeafOutline = createVueIcon('LeafOutline', leaf.outline)
+export const LeafSolid = createVueIcon('LeafSolid', leaf.solid)
+export const LeafDuotone = createVueIcon('LeafDuotone', leaf.duotone)
+export const LeafBulk = createVueIcon('LeafBulk', leaf.bulk)
+
+export const BeakerOutline = createVueIcon('BeakerOutline', beaker.outline)
+export const BeakerSolid = createVueIcon('BeakerSolid', beaker.solid)
+export const BeakerDuotone = createVueIcon('BeakerDuotone', beaker.duotone)
+export const BeakerBulk = createVueIcon('BeakerBulk', beaker.bulk)
+
+export const PipetteOutline = createVueIcon('PipetteOutline', pipette.outline)
+export const PipetteSolid = createVueIcon('PipetteSolid', pipette.solid)
+export const PipetteDuotone = createVueIcon('PipetteDuotone', pipette.duotone)
+export const PipetteBulk = createVueIcon('PipetteBulk', pipette.bulk)
+
+export const ScaleOutline = createVueIcon('ScaleOutline', scale.outline)
+export const ScaleSolid = createVueIcon('ScaleSolid', scale.solid)
+export const ScaleDuotone = createVueIcon('ScaleDuotone', scale.duotone)
+export const ScaleBulk = createVueIcon('ScaleBulk', scale.bulk)
+
+export const BottleOutline = createVueIcon('BottleOutline', bottle.outline)
+export const BottleSolid = createVueIcon('BottleSolid', bottle.solid)
+export const BottleDuotone = createVueIcon('BottleDuotone', bottle.duotone)
+export const BottleBulk = createVueIcon('BottleBulk', bottle.bulk)
+
+export const SparkleOutline = createVueIcon('SparkleOutline', sparkle.outline)
+export const SparkleSolid = createVueIcon('SparkleSolid', sparkle.solid)
+export const SparkleDuotone = createVueIcon('SparkleDuotone', sparkle.duotone)
+export const SparkleBulk = createVueIcon('SparkleBulk', sparkle.bulk)
+
+// ── Re-exports ──────────────────────────────────────────────────────────────
+export { iconRegistry, getIcon, searchIcons, iconMetadata, getIconNames } from '@reverieio/icons-core'
+export type { IconVariation, IconSet, IconDefinition, IconMetadata } from '@reverieio/icons-core'

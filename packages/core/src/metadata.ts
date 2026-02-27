@@ -1,0 +1,123 @@
+import type { IconMetadata } from './types'
+
+/**
+ * Searchable metadata for all icons.
+ * Used by documentation sites, icon pickers, and search UIs.
+ */
+export const iconMetadata: Record<string, IconMetadata> = {
+  flask: {
+    name: 'flask',
+    displayName: 'Flask',
+    description: 'Erlenmeyer flask — laboratory, chemistry, experimentation',
+    tags: ['lab', 'chemistry', 'science', 'experiment', 'laboratory', 'research', 'formula'],
+    category: 'lab',
+    addedIn: '1.0.0',
+  },
+  droplet: {
+    name: 'droplet',
+    displayName: 'Droplet',
+    description: 'Water or liquid drop — liquid, essential oil, extract',
+    tags: ['water', 'liquid', 'drop', 'oil', 'extract', 'essential', 'perfume'],
+    category: 'nature',
+    addedIn: '1.0.0',
+  },
+  flower: {
+    name: 'flower',
+    displayName: 'Flower',
+    description: 'Floral petals — botanical, floral family, natural',
+    tags: ['floral', 'botanical', 'petal', 'rose', 'jasmine', 'nature', 'garden'],
+    category: 'nature',
+    addedIn: '1.0.0',
+  },
+  molecule: {
+    name: 'molecule',
+    displayName: 'Molecule',
+    description: 'Chemical molecule with bonds — aroma chemical, synthetic, structure',
+    tags: ['chemical', 'atom', 'bond', 'structure', 'synthetic', 'aroma', 'compound'],
+    category: 'lab',
+    addedIn: '1.0.0',
+  },
+  scent: {
+    name: 'scent',
+    displayName: 'Scent',
+    description: 'Nose / fragrance detection — olfactory, smell, perfumery',
+    tags: ['nose', 'smell', 'olfactory', 'fragrance', 'perfume', 'aroma', 'sniff'],
+    category: 'fragrance',
+    addedIn: '1.0.0',
+  },
+  leaf: {
+    name: 'leaf',
+    displayName: 'Leaf',
+    description: 'Natural leaf — botanical, green, natural ingredient',
+    tags: ['botanical', 'green', 'natural', 'plant', 'herb', 'organic', 'eco'],
+    category: 'nature',
+    addedIn: '1.0.0',
+  },
+  beaker: {
+    name: 'beaker',
+    displayName: 'Beaker',
+    description: 'Laboratory beaker — measuring, mixing, formulation',
+    tags: ['lab', 'measure', 'mix', 'formulation', 'container', 'liquid', 'chemistry'],
+    category: 'lab',
+    addedIn: '1.0.0',
+  },
+  pipette: {
+    name: 'pipette',
+    displayName: 'Pipette',
+    description: 'Precision pipette/dropper — dosing, measurement, precision',
+    tags: ['dropper', 'dose', 'precision', 'measure', 'lab', 'tool', 'instrument'],
+    category: 'lab',
+    addedIn: '1.0.0',
+  },
+  scale: {
+    name: 'scale',
+    displayName: 'Scale',
+    description: 'Balance scale — weighing, measurement, formulation',
+    tags: ['balance', 'weight', 'measure', 'gram', 'formulation', 'proportion'],
+    category: 'lab',
+    addedIn: '1.0.0',
+  },
+  bottle: {
+    name: 'bottle',
+    displayName: 'Bottle',
+    description: 'Perfume / fragrance bottle — packaging, product, container',
+    tags: ['perfume', 'container', 'package', 'product', 'glass', 'fragrance', 'vial'],
+    category: 'fragrance',
+    addedIn: '1.0.0',
+  },
+  sparkle: {
+    name: 'sparkle',
+    displayName: 'Sparkle',
+    description: 'Star sparkle — highlight, quality, premium, accent',
+    tags: ['star', 'highlight', 'premium', 'quality', 'shine', 'accent', 'special'],
+    category: 'decorative',
+    addedIn: '1.0.0',
+  },
+}
+
+/** All icon categories */
+export const iconCategories = ['lab', 'nature', 'fragrance', 'decorative'] as const
+export type IconCategory = (typeof iconCategories)[number]
+
+/** Search icons by query string (matches name, tags, description) */
+export function searchIcons(query: string): IconMetadata[] {
+  const q = query.toLowerCase().trim()
+  if (!q) return Object.values(iconMetadata)
+  return Object.values(iconMetadata).filter(
+    (m) =>
+      m.name.includes(q) ||
+      m.displayName.toLowerCase().includes(q) ||
+      m.description.toLowerCase().includes(q) ||
+      m.tags.some((t) => t.includes(q))
+  )
+}
+
+/** Get icons by category */
+export function getIconsByCategory(category: string): IconMetadata[] {
+  return Object.values(iconMetadata).filter((m) => m.category === category)
+}
+
+/** Get all icon names */
+export function getIconNames(): string[] {
+  return Object.keys(iconMetadata)
+}

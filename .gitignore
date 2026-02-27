@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+packages/*/dist/
+
+# Lock files from sub-packages (root only)
+packages/*/package-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env
+.env
+.env.*
