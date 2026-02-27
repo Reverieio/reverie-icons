@@ -13,6 +13,7 @@
     "build:vue": "npm run build -w @reverieio/icons-vue",
     "clean": "npm run clean --workspaces",
     "generate": "node scripts/generate-from-svg.mjs",
+    "build:docs": "npm run build:core && node docs/build-data.mjs",
     "lint": "eslint packages/*/src --ext .ts,.tsx",
     "typecheck": "tsc --noEmit -p packages/core/tsconfig.json && tsc --noEmit -p packages/react/tsconfig.json"
   },

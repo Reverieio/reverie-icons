@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reverie Icons — Interactive Gallery</title>
+  <meta name="description" content="Enterprise-grade, framework-agnostic icon library for fragrance & cosmetics applications. Browse all icons in outline, solid, duotone, and bulk variations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Vars ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #ffffff;
+      --bg-card:   #f8f9fa;
+      --bg-hover:  #f0f1f3;
+      --text:      #1a1a2e;
+      --text-sec:  #6b7280;
+      --border:    #e5e7eb;
+      --accent:    #6A89A7;
+      --accent-bg: #eef3f8;
+      --radius:    12px;
+      --shadow:    0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,.08);
+      --font:      'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --toast-bg:  #1a1a2e;
+      --toast-fg:  #fff;
+    }
+
+    [data-theme="dark"] {
+      --bg:        #0f1117;
+      --bg-card:   #1a1c25;
+      --bg-hover:  #252730;
+      --text:      #e5e7eb;
+      --text-sec:  #9ca3af;
+      --border:    #2d2f3a;
+      --accent:    #89b4d4;
+      --accent-bg: #1e2a36;
+      --shadow:    0 1px 3px rgba(0,0,0,.2);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,.3);
+      --toast-bg:  #e5e7eb;
+      --toast-fg:  #1a1a2e;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background .2s, color .2s;
+    }
+
+    /* ── Header ────────────────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--accent-bg) 0%, var(--bg) 100%);
+    }
+    .hero h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -.02em; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { color: var(--text-sec); margin-top: .5rem; max-width: 540px; margin-inline: auto; font-size: .95rem; }
+    .hero-badges { display: flex; gap: .5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+    .badge {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px;
+      padding: .25rem .75rem; font-size: .78rem; color: var(--text-sec); font-weight: 500;
+    }
+    .badge strong { color: var(--text); }
+
+    /* ── Toolbar ────────────────────────────────────────────────────── */
+    .toolbar {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--bg); border-bottom: 1px solid var(--border);
+      padding: .75rem 1.5rem;
+      display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: center;
+      backdrop-filter: blur(12px);
+    }
+    .search-box {
+      position: relative; flex: 1 1 280px; max-width: 400px;
+    }
+    .search-box input {
+      width: 100%; padding: .55rem 1rem .55rem 2.4rem;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-size: .88rem; background: var(--bg-card); color: var(--text);
+      outline: none; transition: border-color .15s;
+    }
+    .search-box input:focus { border-color: var(--accent); }
+    .search-box svg {
+      position: absolute; left: .7rem; top: 50%; transform: translateY(-50%);
+      width: 16px; height: 16px; color: var(--text-sec);
+    }
+
+    .variation-tabs {
+      display: flex; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border); overflow: hidden;
+    }
+    .variation-tabs button {
+      padding: .45rem .85rem; font-size: .8rem; font-weight: 500; border: none;
+      background: transparent; color: var(--text-sec); cursor: pointer;
+      transition: all .15s; font-family: var(--font);
+    }
+    .variation-tabs button.active { background: var(--accent); color: #fff; }
+    .variation-tabs button:hover:not(.active) { background: var(--bg-hover); }
+
+    .cat-pills {
+      display: flex; gap: .35rem; flex-wrap: wrap;
+    }
+    .cat-pills button {
+      padding: .3rem .65rem; font-size: .75rem; font-weight: 500;
+      border: 1px solid var(--border); border-radius: 999px;
+      background: var(--bg-card); color: var(--text-sec); cursor: pointer;
+      transition: all .15s; font-family: var(--font);
+    }
+    .cat-pills button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .cat-pills button:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
+
+    .controls {
+      display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+    }
+    .control-group {
+      display: flex; align-items: center; gap: .4rem; font-size: .8rem; color: var(--text-sec);
+    }
+    .control-group input[type="color"] {
+      width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 6px;
+      cursor: pointer; padding: 0; background: none;
+    }
+    .control-group input[type="range"] { width: 80px; accent-color: var(--accent); }
+    .size-val { font-weight: 600; color: var(--text); min-width: 30px; text-align: right; }
+
+    .theme-toggle {
+      width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg-card); cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text-sec); transition: all .15s;
+    }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Icon Grid ─────────────────────────────────────────────────── */
+    .grid-container {
+      max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem;
+    }
+    .grid-info {
+      font-size: .85rem; color: var(--text-sec); margin-bottom: 1rem;
+    }
+    .grid-info strong { color: var(--text); }
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .icon-card {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 1.25rem .75rem 1rem;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      cursor: pointer; transition: all .18s; position: relative;
+    }
+    .icon-card:hover {
+      border-color: var(--accent); box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+    .icon-card svg { transition: all .15s; }
+    .icon-card .icon-name {
+      margin-top: .6rem; font-size: .75rem; font-weight: 500; color: var(--text-sec);
+      text-transform: capitalize;
+    }
+    .icon-card .icon-cat {
+      font-size: .65rem; color: var(--accent); font-weight: 500; margin-top: .15rem;
+    }
+    .icon-card .copied-badge {
+      position: absolute; top: .4rem; right: .4rem;
+      background: var(--accent); color: #fff; font-size: .6rem; font-weight: 600;
+      padding: .15rem .4rem; border-radius: 4px; opacity: 0; transition: opacity .2s;
+    }
+    .icon-card .copied-badge.show { opacity: 1; }
+
+    .no-results {
+      grid-column: 1 / -1; text-align: center; padding: 3rem 1rem;
+      color: var(--text-sec);
+    }
+    .no-results svg { width: 48px; height: 48px; opacity: .3; margin-bottom: 1rem; }
+
+    /* ── Detail Panel ──────────────────────────────────────────────── */
+    .detail-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 100;
+      display: none; align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .detail-overlay.open { display: flex; }
+    .detail-panel {
+      background: var(--bg); border-radius: 16px; padding: 2rem;
+      width: 90%; max-width: 560px; box-shadow: var(--shadow-lg);
+      position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .detail-close {
+      position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px;
+      border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text-sec); font-size: 1.1rem;
+    }
+    .detail-close:hover { border-color: var(--accent); color: var(--accent); }
+    .detail-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .detail-preview {
+      width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
+      background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);
+    }
+    .detail-meta h2 { font-size: 1.3rem; font-weight: 700; }
+    .detail-meta p { font-size: .85rem; color: var(--text-sec); }
+    .detail-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+    .detail-tags span {
+      background: var(--accent-bg); color: var(--accent); font-size: .7rem; font-weight: 500;
+      padding: .15rem .5rem; border-radius: 999px;
+    }
+
+    .detail-variations {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin-bottom: 1.5rem;
+    }
+    .detail-var-card {
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      padding: .75rem .5rem; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; cursor: pointer; transition: all .15s;
+    }
+    .detail-var-card:hover, .detail-var-card.active {
+      border-color: var(--accent); background: var(--accent-bg);
+    }
+    .detail-var-card span { font-size: .7rem; font-weight: 500; color: var(--text-sec); text-transform: capitalize; }
+
+    .detail-code { margin-top: 1rem; }
+    .detail-code h3 { font-size: .85rem; font-weight: 600; margin-bottom: .5rem; }
+    .code-block {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      padding: .75rem 1rem; font-family: 'SF Mono', 'Fira Code', monospace; font-size: .78rem;
+      color: var(--accent); overflow-x: auto; cursor: pointer; position: relative;
+      line-height: 1.5;
+    }
+    .code-block:hover { border-color: var(--accent); }
+    .code-block .copy-hint {
+      position: absolute; top: .4rem; right: .5rem; font-size: .65rem;
+      color: var(--text-sec); font-family: var(--font);
+    }
+
+    /* ── Toast ─────────────────────────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--toast-bg); color: var(--toast-fg);
+      padding: .6rem 1.2rem; border-radius: 8px; font-size: .82rem; font-weight: 500;
+      box-shadow: var(--shadow-lg); z-index: 200; transition: transform .3s ease;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── Footer ────────────────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 2rem 1.5rem; border-top: 1px solid var(--border);
+      color: var(--text-sec); font-size: .82rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 1.6rem; }
+      .toolbar { padding: .6rem 1rem; }
+      .icon-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: .75rem; }
+      .detail-variations { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Hero ──────────────────────────────────────────────────────── -->
+  <header class="hero">
+    <h1><span>Reverie</span> Icons</h1>
+    <p>Enterprise-grade, framework-agnostic icon library for fragrance &amp; cosmetics applications. Browse, preview, and copy.</p>
+    <div class="hero-badges">
+      <span class="badge"><strong id="icon-count">0</strong>&nbsp;icons</span>
+      <span class="badge">4 variations</span>
+      <span class="badge">React &middot; Vue &middot; Core</span>
+      <span class="badge">Tree-shakeable</span>
+    </div>
+  </header>
+
+  <!-- ── Toolbar ───────────────────────────────────────────────────── -->
+  <nav class="toolbar">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="search" placeholder="Search icons…" autocomplete="off" />
+    </div>
+
+    <div class="variation-tabs" id="var-tabs">
+      <button class="active" data-var="outline">Outline</button>
+      <button data-var="solid">Solid</button>
+      <button data-var="duotone">Duotone</button>
+      <button data-var="bulk">Bulk</button>
+    </div>
+
+    <div class="cat-pills" id="cat-pills">
+      <button class="active" data-cat="all">All</button>
+    </div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="color-pick">Color</label>
+        <input type="color" id="color-pick" value="#6A89A7" />
+      </div>
+      <div class="control-group">
+        <label for="sec-color-pick">2nd</label>
+        <input type="color" id="sec-color-pick" value="#E8B4B8" />
+      </div>
+      <div class="control-group">
+        <label for="size-range">Size</label>
+        <input type="range" id="size-range" min="16" max="64" value="32" />
+        <span class="size-val" id="size-val">32</span>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Grid ──────────────────────────────────────────────────────── -->
+  <main class="grid-container">
+    <div class="grid-info" id="grid-info"></div>
+    <div class="icon-grid" id="icon-grid"></div>
+  </main>
+
+  <!-- ── Detail Overlay ────────────────────────────────────────────── -->
+  <div class="detail-overlay" id="detail-overlay">
+    <div class="detail-panel" id="detail-panel">
+      <button class="detail-close" id="detail-close">&times;</button>
+      <div class="detail-header">
+        <div class="detail-preview" id="detail-preview"></div>
+        <div class="detail-meta">
+          <h2 id="detail-name"></h2>
+          <p id="detail-desc"></p>
+          <div class="detail-tags" id="detail-tags"></div>
+        </div>
+      </div>
+      <div class="detail-variations" id="detail-vars"></div>
+      <div class="detail-code">
+        <h3>React</h3>
+        <div class="code-block" id="code-react"><span class="copy-hint">click to copy</span></div>
+      </div>
+      <div class="detail-code" style="margin-top:.75rem">
+        <h3>Vue</h3>
+        <div class="code-block" id="code-vue"><span class="copy-hint">click to copy</span></div>
+      </div>
+      <div class="detail-code" style="margin-top:.75rem">
+        <h3>Core (raw data)</h3>
+        <div class="code-block" id="code-core"><span class="copy-hint">click to copy</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast ─────────────────────────────────────────────────────── -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ── Footer ────────────────────────────────────────────────────── -->
+  <footer>
+    <p>
+      <strong>@reverieio/icons</strong> v<span id="footer-version">1.0.0</span> &middot;
+      <a href="https://github.com/Reverieio/reverie-icons">GitHub</a> &middot;
+      <a href="https://github.com/Reverieio/reverie-icons/pkgs/npm">Packages</a> &middot;
+      MIT &copy; Reverie Fragrance Co.
+    </p>
+  </footer>
+
+  <script>
+    // ── State ──────────────────────────────────────────────────────── 
+    let ICONS = {}
+    let activeVariation = 'outline'
+    let activeCategory = 'all'
+    let searchQuery = ''
+    let primaryColor = '#6A89A7'
+    let secondaryColor = '#E8B4B8'
+    let iconSize = 32
+    let detailIcon = null
+    let detailVariation = 'outline'
+
+    // ── Load icons ─────────────────────────────────────────────────── 
+    async function loadIcons() {
+      try {
+        const res = await fetch('icon-data.json')
+        ICONS = await res.json()
+        init()
+      } catch (e) {
+        document.getElementById('icon-grid').innerHTML =
+          '<div class="no-results"><p>Failed to load icon data. Run <code>npm run build:docs</code> first.</p></div>'
+      }
+    }
+
+    function init() {
+      const names = Object.keys(ICONS)
+      document.getElementById('icon-count').textContent = names.length
+
+      // Build category pills
+      const cats = [...new Set(names.map(n => ICONS[n].category))].sort()
+      const pillsEl = document.getElementById('cat-pills')
+      cats.forEach(cat => {
+        const btn = document.createElement('button')
+        btn.dataset.cat = cat
+        btn.textContent = cat
+        pillsEl.appendChild(btn)
+      })
+
+      renderGrid()
+    }
+
+    // ── SVG Renderer ───────────────────────────────────────────────── 
+    function renderSVG(iconDef, size, color, secColor, strokeW) {
+      if (!iconDef) return ''
+      const vb = iconDef.viewBox || '0 0 24 24'
+      let inner = ''
+      for (const layer of iconDef.layers) {
+        const layerColor = layer.colorSource === 'secondary' ? (secColor || color) : color
+        const opacity = layer.opacity !== undefined && layer.opacity !== 1 ? ` opacity="${layer.opacity}"` : ''
+        for (const el of layer.elements) {
+          let attrs = ''
+          for (const [k, v] of Object.entries(el.attrs)) {
+            attrs += ` ${k}="${v}"`
+          }
+          if (layer.colorMode === 'stroke') {
+            attrs += ` stroke="${layerColor}" fill="none" stroke-width="${strokeW || 1.5}" stroke-linecap="round" stroke-linejoin="round"`
+          } else {
+            attrs += ` fill="${layerColor}"`
+          }
+          if (opacity) attrs += opacity
+          inner += `<${el.tag}${attrs}/>`
+        }
+      }
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="${vb}" fill="none">${inner}</svg>`
+    }
+
+    // ── Grid Rendering ─────────────────────────────────────────────── 
+    function getFilteredIcons() {
+      const q = searchQuery.toLowerCase().trim()
+      return Object.values(ICONS).filter(icon => {
+        if (activeCategory !== 'all' && icon.category !== activeCategory) return false
+        if (!q) return true
+        return icon.name.includes(q) ||
+               icon.displayName.toLowerCase().includes(q) ||
+               (icon.description || '').toLowerCase().includes(q) ||
+               (icon.tags || []).some(t => t.includes(q))
+      })
+    }
+
+    function renderGrid() {
+      const filtered = getFilteredIcons()
+      const grid = document.getElementById('icon-grid')
+      const info = document.getElementById('grid-info')
+
+      info.innerHTML = `Showing <strong>${filtered.length}</strong> of <strong>${Object.keys(ICONS).length}</strong> icons`
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="no-results">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M8 11h6"/></svg>
+            <p>No icons match "<strong>${searchQuery}</strong>"</p>
+          </div>`
+        return
+      }
+
+      grid.innerHTML = filtered.map(icon => {
+        const def = icon.variations[activeVariation]
+        const svg = renderSVG(def, iconSize, primaryColor, secondaryColor, def?.defaultStrokeWidth)
+        return `
+          <div class="icon-card" data-icon="${icon.name}" tabindex="0">
+            ${svg}
+            <div class="icon-name">${icon.displayName}</div>
+            <div class="icon-cat">${icon.category}</div>
+            <div class="copied-badge">Copied!</div>
+          </div>`
+      }).join('')
+    }
+
+    // ── Detail Panel ───────────────────────────────────────────────── 
+    function openDetail(name) {
+      const icon = ICONS[name]
+      if (!icon) return
+      detailIcon = icon
+      detailVariation = activeVariation
+
+      document.getElementById('detail-name').textContent = icon.displayName
+      document.getElementById('detail-desc').textContent = icon.description || ''
+      document.getElementById('detail-tags').innerHTML =
+        (icon.tags || []).map(t => `<span>${t}</span>`).join('')
+
+      renderDetailVariations()
+      renderDetailPreview()
+      renderDetailCode()
+
+      document.getElementById('detail-overlay').classList.add('open')
+    }
+
+    function renderDetailVariations() {
+      const vars = document.getElementById('detail-vars')
+      vars.innerHTML = ['outline', 'solid', 'duotone', 'bulk'].map(v => {
+        const def = detailIcon.variations[v]
+        const svg = renderSVG(def, 28, primaryColor, secondaryColor, def?.defaultStrokeWidth)
+        return `
+          <div class="detail-var-card ${v === detailVariation ? 'active' : ''}" data-var="${v}">
+            ${svg}
+            <span>${v}</span>
+          </div>`
+      }).join('')
+    }
+
+    function renderDetailPreview() {
+      const def = detailIcon.variations[detailVariation]
+      document.getElementById('detail-preview').innerHTML =
+        renderSVG(def, 48, primaryColor, secondaryColor, def?.defaultStrokeWidth)
+    }
+
+    function renderDetailCode() {
+      const name = detailIcon.displayName
+      const iName = detailIcon.name
+      const v = detailVariation.charAt(0).toUpperCase() + detailVariation.slice(1)
+
+      document.getElementById('code-react').innerHTML =
+        `<span class="copy-hint">click to copy</span>import { ${name}${v} } from '@reverieio/icons-react'\n\n&lt;${name}${v} size={${iconSize}} color="${primaryColor}" /&gt;`
+
+      document.getElementById('code-vue').innerHTML =
+        `<span class="copy-hint">click to copy</span>import { ${name}${v} } from '@reverieio/icons-vue'\n\n&lt;${name}${v} :size="${iconSize}" color="${primaryColor}" /&gt;`
+
+      document.getElementById('code-core').innerHTML =
+        `<span class="copy-hint">click to copy</span>import { ${iName} } from '@reverieio/icons-core'\n\nconst def = ${iName}.${detailVariation}`
+    }
+
+    function closeDetail() {
+      document.getElementById('detail-overlay').classList.remove('open')
+      detailIcon = null
+    }
+
+    // ── Toast ──────────────────────────────────────────────────────── 
+    let toastTimer
+    function showToast(msg) {
+      const el = document.getElementById('toast')
+      el.textContent = msg
+      el.classList.add('show')
+      clearTimeout(toastTimer)
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2000)
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'))
+    }
+
+    // ── Event Listeners ────────────────────────────────────────────── 
+    document.getElementById('search').addEventListener('input', e => {
+      searchQuery = e.target.value
+      renderGrid()
+    })
+
+    document.getElementById('var-tabs').addEventListener('click', e => {
+      const btn = e.target.closest('button')
+      if (!btn || !btn.dataset.var) return
+      activeVariation = btn.dataset.var
+      document.querySelectorAll('#var-tabs button').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      renderGrid()
+    })
+
+    document.getElementById('cat-pills').addEventListener('click', e => {
+      const btn = e.target.closest('button')
+      if (!btn || !btn.dataset.cat) return
+      activeCategory = btn.dataset.cat
+      document.querySelectorAll('#cat-pills button').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      renderGrid()
+    })
+
+    document.getElementById('color-pick').addEventListener('input', e => {
+      primaryColor = e.target.value
+      renderGrid()
+      if (detailIcon) { renderDetailPreview(); renderDetailVariations(); renderDetailCode() }
+    })
+
+    document.getElementById('sec-color-pick').addEventListener('input', e => {
+      secondaryColor = e.target.value
+      renderGrid()
+      if (detailIcon) { renderDetailPreview(); renderDetailVariations(); renderDetailCode() }
+    })
+
+    document.getElementById('size-range').addEventListener('input', e => {
+      iconSize = parseInt(e.target.value)
+      document.getElementById('size-val').textContent = iconSize
+      renderGrid()
+      if (detailIcon) { renderDetailPreview(); renderDetailCode() }
+    })
+
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const html = document.documentElement
+      const next = html.dataset.theme === 'dark' ? 'light' : 'dark'
+      html.dataset.theme = next
+      localStorage.setItem('reverie-icons-theme', next)
+    })
+
+    // Grid card clicks
+    document.getElementById('icon-grid').addEventListener('click', e => {
+      const card = e.target.closest('.icon-card')
+      if (!card) return
+      openDetail(card.dataset.icon)
+    })
+
+    // Detail variation clicks
+    document.getElementById('detail-vars').addEventListener('click', e => {
+      const card = e.target.closest('.detail-var-card')
+      if (!card) return
+      detailVariation = card.dataset.var
+      renderDetailVariations()
+      renderDetailPreview()
+      renderDetailCode()
+    })
+
+    // Detail code copy
+    document.querySelectorAll('.code-block').forEach(block => {
+      block.addEventListener('click', () => {
+        const text = block.textContent.replace('click to copy', '').trim()
+        copyText(text)
+      })
+    })
+
+    // Close detail
+    document.getElementById('detail-close').addEventListener('click', closeDetail)
+    document.getElementById('detail-overlay').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeDetail()
+    })
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeDetail()
+    })
+
+    // ── Init ───────────────────────────────────────────────────────── 
+    const savedTheme = localStorage.getItem('reverie-icons-theme')
+    if (savedTheme) document.documentElement.dataset.theme = savedTheme
+
+    loadIcons()
+  </script>
+</body>
+</html>

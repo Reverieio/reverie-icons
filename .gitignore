@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 packages/*/dist/
+docs/icon-data.json
 
 # Lock files from sub-packages (root only)
 packages/*/package-lock.json
