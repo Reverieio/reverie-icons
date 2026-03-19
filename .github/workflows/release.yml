@@ -1,0 +1,116 @@
+name: Auto Release
+
+on:
+  workflow_run:
+    workflows: ["Generate Icons from SVGs"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  release:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@reverieio'
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Bump patch version
+        run: |
+          npm version patch --no-git-tag-version --workspaces
+          ROOT_VERSION=$(node -p "require('./packages/core/package.json').version")
+          npm version patch --no-git-tag-version
+          echo "NEW_VERSION=$ROOT_VERSION" >> $GITHUB_ENV
+
+      - name: Build all packages
+        run: npm run build
+
+      - name: Verify dist artifacts
+        run: |
+          test -f packages/core/dist/index.mjs
+          test -f packages/react/dist/index.mjs
+          test -f packages/vue/dist/index.mjs
+          echo "✅ All dist artifacts present"
+
+      - name: Collect new icons
+        id: icons
+        run: |
+          ICONS=$(node -e "
+            const m = require('./config/icon-metadata.json');
+            console.log(Object.values(m).map(i => '- \`' + i.name + '\` — ' + i.displayName).join('\n'));
+          ")
+          echo "ICON_LIST<<EOF" >> $GITHUB_ENV
+          echo "$ICONS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Commit and tag
+        run: |
+          git add -A
+          git commit -m "chore: release v${{ env.NEW_VERSION }}"
+          git tag "v${{ env.NEW_VERSION }}"
+          git push origin main --tags
+
+      - name: Create GitHub Release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: `v${process.env.NEW_VERSION}`,
+              name: `v${process.env.NEW_VERSION}`,
+              body: `## What's in this release\n\n### Icons (${Object.keys(require('./config/icon-metadata.json')).length} total)\n\n${process.env.ICON_LIST}\n\n### Packages\n- \`@reverieio/icons-core\`\n- \`@reverieio/icons-react\`\n- \`@reverieio/icons-vue\``,
+              draft: false,
+              prerelease: false,
+            })
+
+      - name: Publish @reverieio/icons-core
+        run: npm publish --workspace=packages/core --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish @reverieio/icons-react
+        run: npm publish --workspace=packages/react --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish @reverieio/icons-vue
+        run: npm publish --workspace=packages/vue --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "### 🚀 Released @reverieio/icons v${{ env.NEW_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Package | Version |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "| \`@reverieio/icons-core\` | ${{ env.NEW_VERSION }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| \`@reverieio/icons-react\` | ${{ env.NEW_VERSION }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| \`@reverieio/icons-vue\` | ${{ env.NEW_VERSION }} |" >> $GITHUB_STEP_SUMMARY
