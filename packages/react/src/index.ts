@@ -25,6 +25,7 @@ import {
   leaf,
   molecule,
   pipette,
+  pyramid,
   scale,
   scent,
   sparkle,
@@ -89,6 +90,12 @@ export const PipetteOutline         = createReactIcon('PipetteOutline', pipette.
 export const PipetteSolid           = createReactIcon('PipetteSolid', pipette.solid)
 export const PipetteDuotone         = createReactIcon('PipetteDuotone', pipette.duotone)
 export const PipetteBulk            = createReactIcon('PipetteBulk', pipette.bulk)
+
+// ── Pyramid ───────────────────────────────────────────────────────────────────
+export const PyramidOutline         = createReactIcon('PyramidOutline', pyramid.outline)
+export const PyramidSolid           = createReactIcon('PyramidSolid', pyramid.solid)
+export const PyramidDuotone         = createReactIcon('PyramidDuotone', pyramid.duotone)
+export const PyramidBulk            = createReactIcon('PyramidBulk', pyramid.bulk)
 
 // ── Scale ───────────────────────────────────────────────────────────────────
 export const ScaleOutline           = createReactIcon('ScaleOutline', scale.outline)

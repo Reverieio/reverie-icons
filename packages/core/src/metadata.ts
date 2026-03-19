@@ -72,6 +72,14 @@ export const iconMetadata: Record<string, IconMetadata> = {
     category: 'lab',
     addedIn: '1.0.0',
   },
+  pyramid: {
+    name: 'pyramid',
+    displayName: 'Pyramid',
+    description: 'Pyramid Notes — love, Olfactory Pyramid',
+    tags: ['pyramid'],
+    category: 'decorative',
+    addedIn: '1.1.0',
+  },
   scale: {
     name: 'scale',
     displayName: 'Scale',
