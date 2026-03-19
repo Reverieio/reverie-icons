@@ -115,7 +115,7 @@ export const Icon = defineComponent({
 
 // ── Pre-built icon components ───────────────────────────────────────────────
 
-import { beaker, bottle, droplet, flask, flower, leaf, molecule, pipette, pyramid, scale, scent, sparkle } from '@reverieio/icons-core'
+import { beaker, bottle, droplet, flask, pyramid, sparkle } from '@reverieio/icons-core'
 
 export const BeakerOutline = createVueIcon('BeakerOutline', beaker.outline)
 export const BeakerSolid = createVueIcon('BeakerSolid', beaker.solid)
@@ -137,40 +137,10 @@ export const FlaskSolid = createVueIcon('FlaskSolid', flask.solid)
 export const FlaskDuotone = createVueIcon('FlaskDuotone', flask.duotone)
 export const FlaskBulk = createVueIcon('FlaskBulk', flask.bulk)
 
-export const FlowerOutline = createVueIcon('FlowerOutline', flower.outline)
-export const FlowerSolid = createVueIcon('FlowerSolid', flower.solid)
-export const FlowerDuotone = createVueIcon('FlowerDuotone', flower.duotone)
-export const FlowerBulk = createVueIcon('FlowerBulk', flower.bulk)
-
-export const LeafOutline = createVueIcon('LeafOutline', leaf.outline)
-export const LeafSolid = createVueIcon('LeafSolid', leaf.solid)
-export const LeafDuotone = createVueIcon('LeafDuotone', leaf.duotone)
-export const LeafBulk = createVueIcon('LeafBulk', leaf.bulk)
-
-export const MoleculeOutline = createVueIcon('MoleculeOutline', molecule.outline)
-export const MoleculeSolid = createVueIcon('MoleculeSolid', molecule.solid)
-export const MoleculeDuotone = createVueIcon('MoleculeDuotone', molecule.duotone)
-export const MoleculeBulk = createVueIcon('MoleculeBulk', molecule.bulk)
-
-export const PipetteOutline = createVueIcon('PipetteOutline', pipette.outline)
-export const PipetteSolid = createVueIcon('PipetteSolid', pipette.solid)
-export const PipetteDuotone = createVueIcon('PipetteDuotone', pipette.duotone)
-export const PipetteBulk = createVueIcon('PipetteBulk', pipette.bulk)
-
 export const PyramidOutline = createVueIcon('PyramidOutline', pyramid.outline)
 export const PyramidSolid = createVueIcon('PyramidSolid', pyramid.solid)
 export const PyramidDuotone = createVueIcon('PyramidDuotone', pyramid.duotone)
 export const PyramidBulk = createVueIcon('PyramidBulk', pyramid.bulk)
-
-export const ScaleOutline = createVueIcon('ScaleOutline', scale.outline)
-export const ScaleSolid = createVueIcon('ScaleSolid', scale.solid)
-export const ScaleDuotone = createVueIcon('ScaleDuotone', scale.duotone)
-export const ScaleBulk = createVueIcon('ScaleBulk', scale.bulk)
-
-export const ScentOutline = createVueIcon('ScentOutline', scent.outline)
-export const ScentSolid = createVueIcon('ScentSolid', scent.solid)
-export const ScentDuotone = createVueIcon('ScentDuotone', scent.duotone)
-export const ScentBulk = createVueIcon('ScentBulk', scent.bulk)
 
 export const SparkleOutline = createVueIcon('SparkleOutline', sparkle.outline)
 export const SparkleSolid = createVueIcon('SparkleSolid', sparkle.solid)

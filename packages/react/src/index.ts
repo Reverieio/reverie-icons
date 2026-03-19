@@ -21,13 +21,7 @@ import {
   bottle,
   droplet,
   flask,
-  flower,
-  leaf,
-  molecule,
-  pipette,
   pyramid,
-  scale,
-  scent,
   sparkle,
 } from '@reverieio/icons-core'
 
@@ -67,47 +61,11 @@ export const FlaskSolid             = createReactIcon('FlaskSolid', flask.solid)
 export const FlaskDuotone           = createReactIcon('FlaskDuotone', flask.duotone)
 export const FlaskBulk              = createReactIcon('FlaskBulk', flask.bulk)
 
-// ── Flower ───────────────────────────────────────────────────────────────────
-export const FlowerOutline          = createReactIcon('FlowerOutline', flower.outline)
-export const FlowerSolid            = createReactIcon('FlowerSolid', flower.solid)
-export const FlowerDuotone          = createReactIcon('FlowerDuotone', flower.duotone)
-export const FlowerBulk             = createReactIcon('FlowerBulk', flower.bulk)
-
-// ── Leaf ───────────────────────────────────────────────────────────────────
-export const LeafOutline            = createReactIcon('LeafOutline', leaf.outline)
-export const LeafSolid              = createReactIcon('LeafSolid', leaf.solid)
-export const LeafDuotone            = createReactIcon('LeafDuotone', leaf.duotone)
-export const LeafBulk               = createReactIcon('LeafBulk', leaf.bulk)
-
-// ── Molecule ───────────────────────────────────────────────────────────────────
-export const MoleculeOutline        = createReactIcon('MoleculeOutline', molecule.outline)
-export const MoleculeSolid          = createReactIcon('MoleculeSolid', molecule.solid)
-export const MoleculeDuotone        = createReactIcon('MoleculeDuotone', molecule.duotone)
-export const MoleculeBulk           = createReactIcon('MoleculeBulk', molecule.bulk)
-
-// ── Pipette ───────────────────────────────────────────────────────────────────
-export const PipetteOutline         = createReactIcon('PipetteOutline', pipette.outline)
-export const PipetteSolid           = createReactIcon('PipetteSolid', pipette.solid)
-export const PipetteDuotone         = createReactIcon('PipetteDuotone', pipette.duotone)
-export const PipetteBulk            = createReactIcon('PipetteBulk', pipette.bulk)
-
 // ── Pyramid ───────────────────────────────────────────────────────────────────
 export const PyramidOutline         = createReactIcon('PyramidOutline', pyramid.outline)
 export const PyramidSolid           = createReactIcon('PyramidSolid', pyramid.solid)
 export const PyramidDuotone         = createReactIcon('PyramidDuotone', pyramid.duotone)
 export const PyramidBulk            = createReactIcon('PyramidBulk', pyramid.bulk)
-
-// ── Scale ───────────────────────────────────────────────────────────────────
-export const ScaleOutline           = createReactIcon('ScaleOutline', scale.outline)
-export const ScaleSolid             = createReactIcon('ScaleSolid', scale.solid)
-export const ScaleDuotone           = createReactIcon('ScaleDuotone', scale.duotone)
-export const ScaleBulk              = createReactIcon('ScaleBulk', scale.bulk)
-
-// ── Scent ───────────────────────────────────────────────────────────────────
-export const ScentOutline           = createReactIcon('ScentOutline', scent.outline)
-export const ScentSolid             = createReactIcon('ScentSolid', scent.solid)
-export const ScentDuotone           = createReactIcon('ScentDuotone', scent.duotone)
-export const ScentBulk              = createReactIcon('ScentBulk', scent.bulk)
 
 // ── Sparkle ───────────────────────────────────────────────────────────────────
 export const SparkleOutline         = createReactIcon('SparkleOutline', sparkle.outline)

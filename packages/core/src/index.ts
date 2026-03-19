@@ -38,13 +38,7 @@ export { default as beaker } from './icons/beaker'
 export { default as bottle } from './icons/bottle'
 export { default as droplet } from './icons/droplet'
 export { default as flask } from './icons/flask'
-export { default as flower } from './icons/flower'
-export { default as leaf } from './icons/leaf'
-export { default as molecule } from './icons/molecule'
-export { default as pipette } from './icons/pipette'
 export { default as pyramid } from './icons/pyramid'
-export { default as scale } from './icons/scale'
-export { default as scent } from './icons/scent'
 export { default as sparkle } from './icons/sparkle'
 
 // ── Registry (all icons in one map) ─────────────────────────────────────────
@@ -54,13 +48,7 @@ import _beaker from './icons/beaker'
 import _bottle from './icons/bottle'
 import _droplet from './icons/droplet'
 import _flask from './icons/flask'
-import _flower from './icons/flower'
-import _leaf from './icons/leaf'
-import _molecule from './icons/molecule'
-import _pipette from './icons/pipette'
 import _pyramid from './icons/pyramid'
-import _scale from './icons/scale'
-import _scent from './icons/scent'
 import _sparkle from './icons/sparkle'
 
 /** Complete registry of all icons, keyed by name */
@@ -69,13 +57,7 @@ export const iconRegistry: Record<string, IconSet> = {
   bottle: _bottle,
   droplet: _droplet,
   flask: _flask,
-  flower: _flower,
-  leaf: _leaf,
-  molecule: _molecule,
-  pipette: _pipette,
   pyramid: _pyramid,
-  scale: _scale,
-  scent: _scent,
   sparkle: _sparkle,
 }
 
