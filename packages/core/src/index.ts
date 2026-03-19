@@ -42,6 +42,7 @@ export { default as flower } from './icons/flower'
 export { default as leaf } from './icons/leaf'
 export { default as molecule } from './icons/molecule'
 export { default as pipette } from './icons/pipette'
+export { default as pyramid } from './icons/pyramid'
 export { default as scale } from './icons/scale'
 export { default as scent } from './icons/scent'
 export { default as sparkle } from './icons/sparkle'
@@ -57,6 +58,7 @@ import _flower from './icons/flower'
 import _leaf from './icons/leaf'
 import _molecule from './icons/molecule'
 import _pipette from './icons/pipette'
+import _pyramid from './icons/pyramid'
 import _scale from './icons/scale'
 import _scent from './icons/scent'
 import _sparkle from './icons/sparkle'
@@ -71,6 +73,7 @@ export const iconRegistry: Record<string, IconSet> = {
   leaf: _leaf,
   molecule: _molecule,
   pipette: _pipette,
+  pyramid: _pyramid,
   scale: _scale,
   scent: _scent,
   sparkle: _sparkle,

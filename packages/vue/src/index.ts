@@ -115,7 +115,7 @@ export const Icon = defineComponent({
 
 // ── Pre-built icon components ───────────────────────────────────────────────
 
-import { beaker, bottle, droplet, flask, flower, leaf, molecule, pipette, scale, scent, sparkle } from '@reverieio/icons-core'
+import { beaker, bottle, droplet, flask, flower, leaf, molecule, pipette, pyramid, scale, scent, sparkle } from '@reverieio/icons-core'
 
 export const BeakerOutline = createVueIcon('BeakerOutline', beaker.outline)
 export const BeakerSolid = createVueIcon('BeakerSolid', beaker.solid)
@@ -156,6 +156,11 @@ export const PipetteOutline = createVueIcon('PipetteOutline', pipette.outline)
 export const PipetteSolid = createVueIcon('PipetteSolid', pipette.solid)
 export const PipetteDuotone = createVueIcon('PipetteDuotone', pipette.duotone)
 export const PipetteBulk = createVueIcon('PipetteBulk', pipette.bulk)
+
+export const PyramidOutline = createVueIcon('PyramidOutline', pyramid.outline)
+export const PyramidSolid = createVueIcon('PyramidSolid', pyramid.solid)
+export const PyramidDuotone = createVueIcon('PyramidDuotone', pyramid.duotone)
+export const PyramidBulk = createVueIcon('PyramidBulk', pyramid.bulk)
 
 export const ScaleOutline = createVueIcon('ScaleOutline', scale.outline)
 export const ScaleSolid = createVueIcon('ScaleSolid', scale.solid)
